@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class DBhelper extends SQLiteOpenHelper {
-    private static String DBNAME = ""
+    private static String DBNAME = "DB.db";
 
     public DBhelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

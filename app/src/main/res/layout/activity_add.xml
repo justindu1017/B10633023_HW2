@@ -25,7 +25,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="Please enter name"
+            android:hint="@string/default_name_hint"
             android:id="@+id/nametext"/>
     </LinearLayout>
 
@@ -42,7 +42,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="Please enter Number"
+            android:hint="@string/default_num_hint"
             android:id="@+id/numbertext"/>
     </LinearLayout>
     <LinearLayout

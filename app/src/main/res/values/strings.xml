@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">B10633023</string>
+    <string name="default_name">[guest]</string>
+    <string name="default_num_hint">please input num</string>
+    <string name="default_name_hint">please enter name</string>
+    <string name="default_num">/?</string>
 </resources>
