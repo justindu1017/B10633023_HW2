@@ -11,21 +11,14 @@ import androidx.annotation.Nullable;
 public class DBhelper extends SQLiteOpenHelper {
     private static String DBNAME = "DB.db";
 
-    public DBhelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
 
-    public DBhelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version, @Nullable DatabaseErrorHandler errorHandler) {
-        super(context, name, factory, version, errorHandler);
-    }
-
-    public DBhelper(@Nullable Context context, @Nullable String name, int version, @NonNull SQLiteDatabase.OpenParams openParams) {
-        super(context, name, version, openParams);
+    public DBhelper(@Nullable Context context) {
+        super(context, DBNAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        String query = "Create table wait_table ( ID Integer unique Autoincrement, ";
     }
 
     @Override
