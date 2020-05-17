@@ -18,11 +18,13 @@ public class DBhelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "Create table wait_table ( ID Integer unique Autoincrement, ";
+        String query = "Create table wait_table ( ID Integer unique primary key autoincrement, number Integer, Name Text )";
+        db.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("drop table if exists wait_table");
+        onCreate(db);
     }
 }
