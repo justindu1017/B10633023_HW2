@@ -2,8 +2,10 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,22 +24,36 @@ public class container extends RecyclerView.Adapter<container.viewholder> {
     @NonNull
     @Override
     public container.viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.objectt, parent, false);
+        viewholder viewholder = new viewholder(view);
+        return viewholder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull container.viewholder holder, int position) {
+        if (!mcursor.moveToPosition(position))
+            return;
+
+        String disname = mcursor.getString(mcursor.getColumnIndex("number"));
+        String dissize = mcursor.getString(mcursor.getColumnIndex("Name"));
+
+        holder.who.setText(disname);
+        holder.size.setText(String.valueOf(dissize));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mcursor.getCount();
     }
 
     public class viewholder extends RecyclerView.ViewHolder {
+        TextView who, size;
         public viewholder(@NonNull View itemView) {
             super(itemView);
+            who = itemView.findViewById(R.id.who);
+            size = itemView.findViewById(R.id.size);
         }
     }
 }
