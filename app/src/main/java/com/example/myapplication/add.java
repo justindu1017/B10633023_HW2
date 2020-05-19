@@ -38,10 +38,11 @@ public class add extends AppCompatActivity {
                     Log.e("LOG_TAG", "Failed to parse party size text to number: " + ex.getMessage());
                 }
 
-                Intent intent = new Intent(add.this, MainActivity.class);
-                intent.putExtra("name", nametext.getText().toString());
-                intent.putExtra("size", partySize);
-                startActivityForResult(intent,1);
+                Intent resulti = new Intent();
+                resulti.putExtra("size", partySize);
+                resulti.putExtra("name", nametext.getText().toString());
+                setResult(RESULT_OK, resulti);
+                finish();
             }
         });
 

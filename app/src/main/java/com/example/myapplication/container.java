@@ -37,9 +37,11 @@ public class container extends RecyclerView.Adapter<container.viewholder> {
 
         String disname = mcursor.getString(mcursor.getColumnIndex("number"));
         String dissize = mcursor.getString(mcursor.getColumnIndex("Name"));
-
+        long id = mcursor.getLong(mcursor.getColumnIndex("ID"));
         holder.who.setText(disname);
         holder.size.setText(String.valueOf(dissize));
+        holder.itemView.setTag(id);
+
 
     }
 
@@ -54,6 +56,15 @@ public class container extends RecyclerView.Adapter<container.viewholder> {
             super(itemView);
             who = itemView.findViewById(R.id.who);
             size = itemView.findViewById(R.id.size);
+        }
+    }
+    public void swapCursor(Cursor newCursor) {
+        // Always close the previous mCursor first
+        if (mcursor != null) mcursor.close();
+        mcursor = newCursor;
+        if (newCursor != null) {
+            // Force the RecyclerView to refresh
+            this.notifyDataSetChanged();
         }
     }
 }
