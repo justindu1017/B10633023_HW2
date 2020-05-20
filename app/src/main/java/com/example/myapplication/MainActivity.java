@@ -33,7 +33,7 @@ import android.widget.Toast;
 import java.time.chrono.MinguoChronology;
 import java.util.zip.Inflater;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity  {
 
     Cursor cursor;
     SQLiteDatabase db;
@@ -86,20 +86,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         }).attachToRecyclerView(recyclerView);
 
-        setupSharedPreferences();
-//        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
     }
-    private void setupSharedPreferences() {
-        // Get all of the values from shared preferences to set it up
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        System.out.println("share = "+sharedPreferences.getString(getString(R.string.pref_color_key),
-                getString(R.string.pref_color_red_value)));
-//        loadColorFromPreferences(sharedPreferences);
-        // Register the listener
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -167,46 +156,4 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         // COMPLETED (2) Inside, call mDb.delete to pass in the TABLE_NAME and the condition that WaitlistEntry._ID equals id
         return db.delete("wait_table", "ID =" + id, null) > 0;
     }
-
-    private void loadColorFromPreferences(SharedPreferences sharedPreferences) {
-        String colo =sharedPreferences.getString(getString(R.string.pref_color_key), getString(R.string.pref_color_red_value));
-        setColor(MainActivity.this, colo);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getString(R.string.pref_color_key))) {
-            loadColorFromPreferences(sharedPreferences);
-            System.out.println("changed!!!!!!!!!!!!!!!!!!");
-            restart();
-        }
-    }
-
-    @SuppressLint("ResourceAsColor")
-    public void setColor(Context context, String newColorKey) {
-
-        @ColorInt
-        int shapeColor;
-        drawable = AppCompatResources.getDrawable(context, R.drawable.circle);
-        wrappedDrawable = DrawableCompat.wrap(drawable);
-
-        if (newColorKey.equals("blue")) {
-            DrawableCompat.setTint(wrappedDrawable,Color.BLUE);
-            System.out.println("get Blue");
-            restart();
-
-        } else if (newColorKey.equals("green")) {
-            DrawableCompat.setTint(wrappedDrawable,Color.GREEN);
-            System.out.println("get Green");
-            restart();
-        } else {
-            DrawableCompat.setTint(wrappedDrawable,Color.RED);
-            System.out.println("get Red");
-            restart();
-        }
-    }
-    public void restart(){
-        startActivity(intent);
-    }
-
 }

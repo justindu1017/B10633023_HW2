@@ -4,15 +4,22 @@
     <string name="default_num_hint">please input num</string>
     <string name="default_name_hint">please enter name</string>
     <string name="default_num">/?</string>
-    <string name="pref_color_label">Color</string>
+
+    <string name="default_color_value">RED</string>
+    <string name="Change_color_title">Change color</string>
 
 
-    <string name="pref_color_label_red">Red</string>
-    <string name="pref_color_label_blue">Blue</string>
-    <string name="pref_color_label_green">Green</string>
+    <string-array name="color_key">
+        <item>RED</item>
+        <item>BLUE</item>
+        <item>GREEN</item>
+    </string-array>
 
-    <string name="pref_color_key" translatable="false">color</string>
-    <string name="pref_color_red_value" translatable="false">red</string>
-    <string name="pref_color_blue_value" translatable="false">blue</string>
-    <string name="pref_color_green_value" translatable="false">green</string>
+    <string-array name="color_value">
+        <item>red</item>
+        <item>blue</item>
+        <item>green</item>
+    </string-array>
+
+
 </resources>
