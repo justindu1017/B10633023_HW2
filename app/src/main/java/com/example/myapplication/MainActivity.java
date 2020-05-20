@@ -1,16 +1,21 @@
 package com.example.myapplication;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +27,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewDebug;
 import android.widget.Toast;
 
 import java.time.chrono.MinguoChronology;
@@ -36,16 +42,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     RecyclerView recyclerView;
     Drawable drawable;
     Drawable wrappedDrawable;
-
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        drawable = AppCompatResources.getDrawable(MainActivity.this,R.drawable.circle);
-        wrappedDrawable = DrawableCompat.wrap(drawable);
-
-
+        intent = getIntent();
         dBhelper = new DBhelper(MainActivity.this);
         db = dBhelper.getWritableDatabase();
         cursor = db.query("wait_table", null, null, null, null, null, null);
@@ -83,8 +85,21 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 alertDialog.show();
             }
         }).attachToRecyclerView(recyclerView);
-    }
 
+        setupSharedPreferences();
+//        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+    }
+    private void setupSharedPreferences() {
+        // Get all of the values from shared preferences to set it up
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        System.out.println("share = "+sharedPreferences.getString(getString(R.string.pref_color_key),
+                getString(R.string.pref_color_red_value)));
+//        loadColorFromPreferences(sharedPreferences);
+        // Register the listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -108,9 +123,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    public void setting(){
+    public void setting() {
         Intent intent = new Intent(MainActivity.this, Setting.class);
         startActivity(intent);
+//        finish();
     }
 
     public void add() {
@@ -152,23 +168,45 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         return db.delete("wait_table", "ID =" + id, null) > 0;
     }
 
-
     private void loadColorFromPreferences(SharedPreferences sharedPreferences) {
-
-        String key = getString(R.string.pref_color_key);
-        String value = getString(R.string.pref_color_red_value);
-        System.out.println("key = "+key);
-        System.out.println("value = "+value);
+        String colo =sharedPreferences.getString(getString(R.string.pref_color_key), getString(R.string.pref_color_red_value));
+        setColor(MainActivity.this, colo);
     }
-
-    public void setcolor(String x , String y){
-    }
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.pref_color_key))) {
-            System.out.println("Changed!!!!!");
+            loadColorFromPreferences(sharedPreferences);
+            System.out.println("changed!!!!!!!!!!!!!!!!!!");
+            restart();
         }
     }
+
+    @SuppressLint("ResourceAsColor")
+    public void setColor(Context context, String newColorKey) {
+
+        @ColorInt
+        int shapeColor;
+        drawable = AppCompatResources.getDrawable(context, R.drawable.circle);
+        wrappedDrawable = DrawableCompat.wrap(drawable);
+
+        if (newColorKey.equals("blue")) {
+            DrawableCompat.setTint(wrappedDrawable,Color.BLUE);
+            System.out.println("get Blue");
+            restart();
+
+        } else if (newColorKey.equals("green")) {
+            DrawableCompat.setTint(wrappedDrawable,Color.GREEN);
+            System.out.println("get Green");
+            restart();
+        } else {
+            DrawableCompat.setTint(wrappedDrawable,Color.RED);
+            System.out.println("get Red");
+            restart();
+        }
+    }
+    public void restart(){
+        startActivity(intent);
+    }
+
 }
