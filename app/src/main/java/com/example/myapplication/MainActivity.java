@@ -33,20 +33,22 @@ import android.widget.Toast;
 import java.time.chrono.MinguoChronology;
 import java.util.zip.Inflater;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     Cursor cursor;
     SQLiteDatabase db;
     DBhelper dBhelper;
     container adapter;
     RecyclerView recyclerView;
-    Drawable drawable;
-    Drawable wrappedDrawable;
     Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         intent = getIntent();
         dBhelper = new DBhelper(MainActivity.this);
         db = dBhelper.getWritableDatabase();
@@ -155,5 +157,22 @@ public class MainActivity extends AppCompatActivity  {
     private boolean removeGuest(long id) {
         // COMPLETED (2) Inside, call mDb.delete to pass in the TABLE_NAME and the condition that WaitlistEntry._ID equals id
         return db.delete("wait_table", "ID =" + id, null) > 0;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.title_key))) {
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onResume();
+    }
+
+
+    protected void setcolor() {
     }
 }
