@@ -5,8 +5,9 @@
     <string name="default_name_hint">please enter name</string>
     <string name="default_num">/?</string>
 
-    <string name="default_color_value">RED</string>
+    <string name="default_color_value">red</string>
     <string name="Change_color_title">Change color</string>
+    <string name="title_key">color</string>
 
 
     <string-array name="color_key">
