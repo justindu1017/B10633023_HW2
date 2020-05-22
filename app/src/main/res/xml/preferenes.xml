@@ -6,6 +6,6 @@
         android:title="@string/Change_color_title"
         android:entries="@array/color_key"
         android:entryValues="@array/color_value"
-        android:defaultValue="red"/>
+        android:defaultValue="0xFFFF0000"/>
 
 </PreferenceScreen>
