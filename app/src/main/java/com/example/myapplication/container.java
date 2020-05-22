@@ -49,7 +49,7 @@ public class container extends RecyclerView.Adapter<container.viewholder> implem
         holder.itemView.setTag(id);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mcontext);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        colorrr = sharedPreferences.getInt("color",0xFF000000);
+        colorrr = getnowcolor(sharedPreferences);
         holder.size.setBackgroundColor(colorrr);
     }
 
@@ -81,16 +81,25 @@ public class container extends RecyclerView.Adapter<container.viewholder> implem
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("color")) {
-            System.out.println("getttt" + sharedPreferences.getString(key, "null"));
-            if (sharedPreferences.getString(key, "null").equals("0xFF0000FF")) {
-                System.out.println("OKKKK");
-                colorrr = Color.BLUE;
-            } else if (sharedPreferences.getString(key, "null").equals("0xFFFF0000")) {
-                System.out.println("OKKKK");
-                colorrr = Color.RED;
-            } else {
-                colorrr = Color.GREEN;
-            }
+            getnowcolor(sharedPreferences);
         }
+    }
+
+    public  int getnowcolor(SharedPreferences sharedPreferences){
+        System.out.println("getttt" + sharedPreferences.getString("color", "nuddddll"));
+        int color;
+        if (sharedPreferences.getString("color", "null").equals("0xFF0000FF")) {
+            System.out.println("OKKKK");
+            colorrr = Color.BLUE;
+            color = colorrr;
+        } else if (sharedPreferences.getString("color", "null").equals("0xFFFF0000")) {
+            System.out.println("OKKKK");
+            colorrr = Color.RED;
+            color = colorrr;
+        } else {
+            colorrr = Color.GREEN;
+            color = colorrr;
+        }
+        return color;
     }
 }
