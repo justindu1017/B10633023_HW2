@@ -1,19 +1,24 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class container extends RecyclerView.Adapter<container.viewholder> {
+public class container extends RecyclerView.Adapter<container.viewholder> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     Context mcontext;
     Cursor mcursor;
+    int colorrr;
 
     public container(Context mcontext, Cursor mcursor) {
         this.mcontext = mcontext;
@@ -30,6 +35,7 @@ public class container extends RecyclerView.Adapter<container.viewholder> {
         return viewholder;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull container.viewholder holder, int position) {
         if (!mcursor.moveToPosition(position))
@@ -41,8 +47,10 @@ public class container extends RecyclerView.Adapter<container.viewholder> {
         holder.who.setText(disname);
         holder.size.setText(String.valueOf(dissize));
         holder.itemView.setTag(id);
-
-
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mcontext);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        colorrr = sharedPreferences.getInt("color",0xFF000000);
+        holder.size.setBackgroundColor(colorrr);
     }
 
     @Override
@@ -52,12 +60,14 @@ public class container extends RecyclerView.Adapter<container.viewholder> {
 
     public class viewholder extends RecyclerView.ViewHolder {
         TextView who, size;
+
         public viewholder(@NonNull View itemView) {
             super(itemView);
             who = itemView.findViewById(R.id.who);
             size = itemView.findViewById(R.id.size);
         }
     }
+
     public void swapCursor(Cursor newCursor) {
         // Always close the previous mCursor first
         if (mcursor != null) mcursor.close();
@@ -65,6 +75,22 @@ public class container extends RecyclerView.Adapter<container.viewholder> {
         if (newCursor != null) {
             // Force the RecyclerView to refresh
             this.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("color")) {
+            System.out.println("getttt" + sharedPreferences.getString(key, "null"));
+            if (sharedPreferences.getString(key, "null").equals("0xFF0000FF")) {
+                System.out.println("OKKKK");
+                colorrr = Color.BLUE;
+            } else if (sharedPreferences.getString(key, "null").equals("0xFFFF0000")) {
+                System.out.println("OKKKK");
+                colorrr = Color.RED;
+            } else {
+                colorrr = Color.GREEN;
+            }
         }
     }
 }

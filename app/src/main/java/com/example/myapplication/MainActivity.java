@@ -159,20 +159,18 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         return db.delete("wait_table", "ID =" + id, null) > 0;
     }
 
+    //    @Override
+//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+//        if (key.equals(getString(R.string.title_key))) {
+//
+//        }
+//    }
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getString(R.string.title_key))) {
-
+        if (key.equals("color")) {
+            adapter.swapCursor(getAllGuests());
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        onResume();
-    }
 
-
-    protected void setcolor() {
-    }
 }
